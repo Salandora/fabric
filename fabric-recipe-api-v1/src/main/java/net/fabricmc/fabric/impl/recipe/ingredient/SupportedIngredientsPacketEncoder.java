@@ -26,4 +26,6 @@ import net.minecraft.util.Identifier;
  */
 public interface SupportedIngredientsPacketEncoder {
 	void fabric_setSupportedCustomIngredients(Set<Identifier> supportedCustomIngredients);
+
+	Set<Identifier> fabric_getSupportedCustomIngredients();
 }
