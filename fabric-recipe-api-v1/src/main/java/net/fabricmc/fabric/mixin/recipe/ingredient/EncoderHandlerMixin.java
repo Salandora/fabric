@@ -19,14 +19,16 @@ package net.fabricmc.fabric.mixin.recipe.ingredient;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
-import net.fabricmc.fabric.impl.recipe.ingredient.CustomIngredientSync;
-import net.fabricmc.fabric.impl.recipe.ingredient.SupportedIngredientsPacketEncoder;
-import net.minecraft.network.handler.EncoderHandler;
-import net.minecraft.network.packet.Packet;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import net.minecraft.network.handler.EncoderHandler;
+import net.minecraft.network.packet.Packet;
+
+import net.fabricmc.fabric.impl.recipe.ingredient.CustomIngredientSync;
+import net.fabricmc.fabric.impl.recipe.ingredient.SupportedIngredientsPacketEncoder;
 
 @Mixin(EncoderHandler.class)
 public class EncoderHandlerMixin {
@@ -39,6 +41,7 @@ public class EncoderHandlerMixin {
 	)
 	private void capturePacketEncoder(ChannelHandlerContext channelHandlerContext, Packet<?> packet, ByteBuf byteBuf, CallbackInfo ci) {
 		ChannelHandler client = channelHandlerContext.pipeline().get("packet_handler");
+
 		if (client != null) {
 			CustomIngredientSync.CURRENT_SUPPORTED_INGREDIENTS.set(((SupportedIngredientsPacketEncoder) client).fabric_getSupportedCustomIngredients());
 		}
