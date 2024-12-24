@@ -24,10 +24,10 @@ import org.spongepowered.asm.mixin.Unique;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.util.Identifier;
 
-import net.fabricmc.fabric.impl.recipe.ingredient.SupportedIngredientsPacketEncoder;
+import net.fabricmc.fabric.impl.recipe.ingredient.SupportedIngredientsClientConnection;
 
 @Mixin(ClientConnection.class)
-public abstract class ClientConnectionMixin implements SupportedIngredientsPacketEncoder {
+public abstract class ClientConnectionMixin implements SupportedIngredientsClientConnection {
 	@Unique
 	private Set<Identifier> fabric_supportedCustomIngredients = Set.of();
 

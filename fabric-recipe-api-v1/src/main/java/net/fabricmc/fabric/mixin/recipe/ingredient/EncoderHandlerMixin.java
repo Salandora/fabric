@@ -28,7 +28,7 @@ import net.minecraft.network.handler.EncoderHandler;
 import net.minecraft.network.packet.Packet;
 
 import net.fabricmc.fabric.impl.recipe.ingredient.CustomIngredientSync;
-import net.fabricmc.fabric.impl.recipe.ingredient.SupportedIngredientsPacketEncoder;
+import net.fabricmc.fabric.impl.recipe.ingredient.SupportedIngredientsClientConnection;
 
 @Mixin(EncoderHandler.class)
 public class EncoderHandlerMixin {
@@ -40,10 +40,10 @@ public class EncoderHandlerMixin {
 			method = "encode(Lio/netty/channel/ChannelHandlerContext;Lnet/minecraft/network/packet/Packet;Lio/netty/buffer/ByteBuf;)V"
 	)
 	private void capturePacketEncoder(ChannelHandlerContext channelHandlerContext, Packet<?> packet, ByteBuf byteBuf, CallbackInfo ci) {
-		ChannelHandler client = channelHandlerContext.pipeline().get("packet_handler");
+		ChannelHandler channelHandler = channelHandlerContext.pipeline().get("packet_handler");
 
-		if (client != null) {
-			CustomIngredientSync.CURRENT_SUPPORTED_INGREDIENTS.set(((SupportedIngredientsPacketEncoder) client).fabric_getSupportedCustomIngredients());
+		if (channelHandler instanceof SupportedIngredientsClientConnection) {
+			CustomIngredientSync.CURRENT_SUPPORTED_INGREDIENTS.set(((SupportedIngredientsClientConnection) channelHandler).fabric_getSupportedCustomIngredients());
 		}
 	}
 
